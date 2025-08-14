@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documentación</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fff;
+    color: #333;
+    scroll-behavior: smooth;
+}
+header {
+    background: #0071ba;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+header input {
+    padding: 5px;
+    font-size: 14px;
+}
+.menu-top {
+    background: #0a4e87;
+    color: #fff;
+    padding: 8px 20px;
+    display: flex;
+    gap: 20px;
+}
+.menu-top a {
+    color: #fff;
+    text-decoration: none;
+}
+.container {
+    display: flex;
+}
+nav {
+    width: 240px;
+    background: #f8f8f8;
+    padding: 15px;
+    border-right: 1px solid #ddd;
+    height: 100vh;
+    overflow-y: auto;
+    position: sticky;
+    top: 0;
+}
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+nav ul li {
+    margin: 6px 0;
+}
+nav ul li a {
+    color: #0b72b9;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+main {
+    flex: 1;
+    padding: 20px;
+    max-width: 850px;
+}
+.img-container {
+    text-align: center;
+    margin: 15px 0;
+}
+.img-container img {
+    max-width: 100%;
+    border: 1px solid #ccc;
+}
+.caption {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+}
+.note {
+    background: #e7f3ff;
+    border-left: 4px solid #2196F3;
+    padding: 10px;
+    margin: 15px 0;
+}
+.tip {
+    background: #e8f5e9;
+    border-left: 4px solid #4CAF50;
+    padding: 10px;
+    margin: 15px 0;
+}
+aside {
+    width: 260px;
+    background: #fafafa;
+    padding: 15px;
+    border-left: 1px solid #ddd;
+    height: 100vh;
+    overflow-y: auto;
+    position: sticky;
+    top: 0;
+}
+aside ul {
+    list-style: none;
+    padding: 0;
+}
+aside ul li {
+    margin: 6px 0;
+}
+aside ul li a {
+    color: #0b72b9;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+aside ul li.active a {
+    font-weight: bold;
+    color: #d9534f;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <strong><i class="fas fa-book"></i> SICAR Ayuda</strong>
+    <input type="text" placeholder="Búsqueda">
+</header>
+
+<div class="menu-top">
+    <a href="#"><i class="fas fa-home"></i> Inicio</a>
+    <a href="#"><i class="fas fa-utensils"></i> Restaurantes</a>
+    <a href="#"><i class="fas fa-cloud"></i> Nube SICAR</a>
+    <a href="#"><i class="fas fa-mobile-alt"></i> SICAR Móvil</a>
+    <a href="#"><i class="fas fa-star"></i> Novedades</a>
+</div>
+
+<div class="container">
+    <nav>
+        <ul>
+            <li><a href="#inicio"><i class="fas fa-house"></i> Inicio</a></li>
+            <li><a href="#instalacion"><i class="fas fa-download"></i> Instalación</a></li>
+            <li><a href="#pedidos"><i class="fas fa-file-alt"></i> Pedidos</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h1 id="pedidos">PEDIDOS (DOCUMENTOS)</h1>
+        <p>Texto de ejemplo para el módulo de pedidos...</p>
+
+        <div class="img-container">
+            <img src="img/captura.png" alt="Pantalla de pedidos">
+            <div class="caption">Figura 1. Módulo de pedidos</div>
+        </div>
+
+        <div class="note"><i class="fas fa-info-circle"></i> Nota: Texto de ejemplo.</div>
+
+        <h2 id="buscar-articulos">Buscar Artículos</h2>
+        <p>Texto de ejemplo...</p>
+
+        <div class="tip"><i class="fas fa-lightbulb"></i> Tip: Texto de ejemplo.</div>
+    </main>
+
+    <aside>
+        <h3><i class="fas fa-list"></i> Tabla de contenidos</h3>
+        <input type="text" id="tocSearch" placeholder="Buscar sección...">
+        <ul id="toc"></ul>
+    </aside>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const toc = document.getElementById("toc");
+    const headings = document.querySelectorAll("main h2");
+
+    headings.forEach(h2 => {
+        const id = h2.id || h2.textContent.toLowerCase().replace(/\s+/g, '-');
+        h2.id = id;
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = "#" + id;
+        a.innerHTML = `<i class="fas fa-circle"></i> ${h2.textContent}`;
+        li.appendChild(a);
+        toc.appendChild(li);
+    });
+
+    window.addEventListener("scroll", () => {
+        let current = "";
+        headings.forEach(h2 => {
+            const sectionTop = h2.offsetTop - 90;
+            if (pageYOffset >= sectionTop) {
+                current = h2.id;
+            }
+        });
+
+        document.querySelectorAll("#toc li").forEach(li => {
+            li.classList.remove("active");
+            if (li.querySelector("a").getAttribute("href") === "#" + current) {
+                li.classList.add("active");
+            }
+        });
+    });
+
+    document.getElementById("tocSearch").addEventListener("input", function() {
+        const filter = this.value.toLowerCase();
+        document.querySelectorAll("#toc li").forEach(li => {
+            const text = li.textContent.toLowerCase();
+            li.style.display = text.includes(filter) ? "" : "none";
+        });
+    });
+});
+</script>
+</body>
+</html>
